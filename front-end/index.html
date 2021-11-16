@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+    integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+    crossorigin="anonymous" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css"
+    integrity="sha512-TQQ3J4WkE/rwojNFo6OJdyu6G8Xe9z8rMrlF9y7xpFbQfW5g8aSWcygCQ4vqRiJqFsDsE1T6MoAOMJkFXlrI9A=="
+    crossorigin="anonymous" />
+
+
+
+  <link href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet">
+
+  <link href="style.css" rel="stylesheet">
+
+  <title>4Meteo</title>
+
+</head>
+
+<body>
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col">
+        <div class="page-header">
+          <nav class="navbar navbar-expand-sm navbar-light">
+            <a class="navbar-brand" href="#">Phosphorland</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">4Meteo <span class="sr-only">(current)</span></a>
+                </li>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="container">
+        <div class="shadow-lg p-3 mb-5 bg-white rounded">
+        <div class="card ">
+          
+          <div class="card-header" id="name" style="background-color: #2d7f67;color: white;"></div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <dl class="row">
+                  <dt class="col-sm-3">Latitude</dt>
+                  <dd class="col-sm-9" id="latitude"></dd>
+                  <dt class="col-sm-3">Longitude</dt>
+                  <dd class="col-sm-9" id="longitude"></dd>
+                  <dt class="col-sm-3">Criado por</dt>
+                  <dd class="col-sm-9" id="createdby"></dd>
+                  <dt class="col-sm-3">Criado quando</dt>
+                  <dd class="col-sm-9" id="createdat"></dd>
+                  <dt class="col-sm-3">Atualizado por</dt>
+                  <dd class="col-sm-9" id="updatedby"></dd>
+                  <dt class="col-sm-3">Atualizado quando</dt>
+                  <dd class="col-sm-9" id="updatedat"></dd>
+                </dl>
+              </div>
+              <div class="col">
+                <div class="container">
+                  <div id="mapdiv" class="olMap" style="height: 250px;">
+                    <div id="OpenLayers_Control_Zoom_20" style="position: absolute; z-index: 1004;"
+                      class="olControlZoom olControlNoSelect" unselectable="on"><a href="#zoomIn"
+                        class="olControlZoomIn olButton">+</a><a href="#zoomOut" class="olControlZoomOut olButton">−</a>
+                    </div>
+                    <div id="OpenLayers_Control_ArgParser_21" style="position: absolute; z-index: 1004;"
+                      class="olControlArgParser olControlNoSelect" unselectable="on"></div>
+                    <div id="OpenLayers_Control_Attribution_22" style="position: absolute; z-index: 1004;"
+                      class="olControlAttribution olControlNoSelect" unselectable="on">© <a
+                        href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src=""
+                                              style="border: 1px solid black" id="mapsrc"></iframe><br /><small>
+                                              <a href="" id="bigmap">Ver mapa maior</a></small> -->
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="container">
+      <div class="shadow-lg p-3 mb-5 bg-white rounded">
+      <div class="card">
+        <div class="card-header" style="background-color: #2d7f67; color: white;">
+          Condições atuais
+        </div>
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted" id="time"></h6>
+
+          <div class="row">
+            <div class="col">
+              
+                <div class="weather">
+                  <div class="svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-thermometer-half" viewBox="0 0 16 16">
+                      <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415z" />
+                      <path
+                        d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z" />
+                    </svg>
+
+                  </div>
+                  <span class="weather__date"><span id="name"></span></span>
+                  <h5 class="weather__pretitle" style="color:white">Temperatura</h5>
+                  <h6 class="weather__title" id="temp" style="color:white"></h6>
+                </div>
+              
+              <!-- <div class="card bg-light border-primary w-100">
+                <div class="card-header bg-primary">Temperatura&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg" width="16"
+                    height="16" fill="currentColor" class="bi bi-thermometer-half" viewBox="0 0 16 16">
+                    <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415z" />
+                    <path
+                      d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z" />
+                  </svg></div>
+                <div class="card-body align-items-center d-flex justify-content-center" id="temp"></div>
+              </div> -->
+              <!-- <div class="panel panel-default">
+                    <div class="panel-heading">Temperatura&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-thermometer-half" viewBox="0 0 16 16">
+                        <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415z" />
+                        <path
+                          d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z" />
+                      </svg></div>
+                    <div class="panel-body" id="temp"></div>
+                  </div> -->
+            </div>
+            <div class="col">
+              
+                <div class="weather">
+                  <div class="svg">
+                    <img src="images/gauge.svg" style="height: 20px;width:20px;" class="img"
+                    alt="Responsive image">
+
+                  </div>
+                  <span class="weather__date"><span id="name"></span></span>
+                  <h5 class="weather__pretitle" style="color:white">Pressão</h5>
+                  <h6 class="weather__title" id="pressure" style="color:white"></h6>
+                </div>
+              
+              <!-- <div class="card bg-light border-primary w-100">
+                <div class="card-header bg-primary">Pressão</div>
+                <div class="card-body align-items-center d-flex justify-content-center" id="pressure"></div>
+              </div> -->
+              <!-- <div class="panel panel-default">
+                    <div class="panel-heading">Pressão</div>
+                    <div class="panel-body" id="pressure"></div>
+                  </div> -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col ">
+              
+                <div class="weather">
+                  <div class="svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-brightness-high-fill" viewBox="0 0 16 16">
+                      <path
+                        d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+                    </svg>
+
+                  </div>
+                  <span class="weather__date"><span id="name"></span></span>
+                  <h6 class="weather__pretitle" style="color:white">Radiação</h6>
+                  <h5 class="weather__title" id="radiation" style="color:white"></h5>
+                </div>
+              
+              <!-- <div class="card bg-light border-primary w-100">
+                <div class="card-header bg-primary">Radiação&NonBreakingSpace;
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-brightness-high-fill" viewBox="0 0 16 16">
+                    <path
+                      d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+                  </svg>
+                </div>
+                <div class="card-body align-items-center d-flex justify-content-center" id="radiation"></div>
+              </div> -->
+              <!-- <div class="panel panel-default">
+                    <div class="panel-heading">Radiação&NonBreakingSpace;
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-brightness-high-fill" viewBox="0 0 16 16">
+                        <path
+                          d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+                      </svg>
+                    </div>
+                    <div class="panel-body" id="radiation"></div>
+                  </div> -->
+
+            </div>
+            <div class="col">
+              
+                <div class="weather">
+                  <div class="svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-wind" viewBox="0 0 16 16">
+                      <path
+                        d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5zm-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2zM0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5z" />
+                    </svg>
+
+                  </div>
+                  <span class="weather__date"><span id="name"></span></span>
+                  <h5 class="weather__pretitle" style="color:white">Intesidade do vento</h5>
+                  <h6 class="weather__title" id="windspeed" style="color:white"></h6>
+                </div>
+              
+              <!-- <div class="card bg-light border-primary w-100">
+                <div class="card-header bg-primary">Intesidade do vento&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg"
+                    width="16" height="16" fill="currentColor" class="bi bi-wind" viewBox="0 0 16 16">
+                    <path
+                      d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5zm-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2zM0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5z" />
+                  </svg></div>
+                <div class="card-body align-items-center d-flex justify-content-center" id="windspeed"></div>
+              </div> -->
+              <!-- <div class="panel panel-default">
+                    <div class="panel-heading">Intesidade do vento&NonBreakingSpace;<svg
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wind"
+                        viewBox="0 0 16 16">
+                        <path
+                          d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5zm-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2zM0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5z" />
+                      </svg></div>
+                    <div class="panel-body" id="windspeed"></div>
+                  </div> -->
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col ">
+              
+                <div class="weather">
+                  <div class="svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                    height="16" fill="currentColor" class="bi bi-moisture" viewBox="0 0 16 16">
+                    <path
+                      d="M13.5 0a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V7.5h-1.5a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V15h-1.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 .5-.5V.5a.5.5 0 0 0-.5-.5h-2zM7 1.5l.364-.343a.5.5 0 0 0-.728 0l-.002.002-.006.007-.022.023-.08.088a28.458 28.458 0 0 0-1.274 1.517c-.769.983-1.714 2.325-2.385 3.727C2.368 7.564 2 8.682 2 9.733 2 12.614 4.212 15 7 15s5-2.386 5-5.267c0-1.05-.368-2.169-.867-3.212-.671-1.402-1.616-2.744-2.385-3.727a28.458 28.458 0 0 0-1.354-1.605l-.022-.023-.006-.007-.002-.001L7 1.5zm0 0-.364-.343L7 1.5zm-.016.766L7 2.247l.016.019c.24.274.572.667.944 1.144.611.781 1.32 1.776 1.901 2.827H4.14c.58-1.051 1.29-2.046 1.9-2.827.373-.477.706-.87.945-1.144zM3 9.733c0-.755.244-1.612.638-2.496h6.724c.395.884.638 1.741.638 2.496C11 12.117 9.182 14 7 14s-4-1.883-4-4.267z" />
+                  </svg>
+
+                  </div>
+                  <span class="weather__date"><span id="name"></span></span>
+                  <h6 class="weather__pretitle" style="color:white">Humidade</h6>
+                  <h5 class="weather__title" id="humidity" style="color:white"></h5>
+                </div>
+              
+              <!-- <div class="card bg-light border-primary w-100">
+                <div class="card-header bg-primary">Humidade&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg" width="16"
+                    height="16" fill="currentColor" class="bi bi-moisture" viewBox="0 0 16 16">
+                    <path
+                      d="M13.5 0a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V7.5h-1.5a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V15h-1.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 .5-.5V.5a.5.5 0 0 0-.5-.5h-2zM7 1.5l.364-.343a.5.5 0 0 0-.728 0l-.002.002-.006.007-.022.023-.08.088a28.458 28.458 0 0 0-1.274 1.517c-.769.983-1.714 2.325-2.385 3.727C2.368 7.564 2 8.682 2 9.733 2 12.614 4.212 15 7 15s5-2.386 5-5.267c0-1.05-.368-2.169-.867-3.212-.671-1.402-1.616-2.744-2.385-3.727a28.458 28.458 0 0 0-1.354-1.605l-.022-.023-.006-.007-.002-.001L7 1.5zm0 0-.364-.343L7 1.5zm-.016.766L7 2.247l.016.019c.24.274.572.667.944 1.144.611.781 1.32 1.776 1.901 2.827H4.14c.58-1.051 1.29-2.046 1.9-2.827.373-.477.706-.87.945-1.144zM3 9.733c0-.755.244-1.612.638-2.496h6.724c.395.884.638 1.741.638 2.496C11 12.117 9.182 14 7 14s-4-1.883-4-4.267z" />
+                  </svg></div>
+                <div class="card-body align-items-center d-flex justify-content-center" id="humidity"></div>
+              </div> -->
+              <!-- <div class="panel panel-default">
+                    <div class="panel-heading">Humidade&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-moisture" viewBox="0 0 16 16">
+                        <path
+                          d="M13.5 0a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V7.5h-1.5a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V15h-1.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 .5-.5V.5a.5.5 0 0 0-.5-.5h-2zM7 1.5l.364-.343a.5.5 0 0 0-.728 0l-.002.002-.006.007-.022.023-.08.088a28.458 28.458 0 0 0-1.274 1.517c-.769.983-1.714 2.325-2.385 3.727C2.368 7.564 2 8.682 2 9.733 2 12.614 4.212 15 7 15s5-2.386 5-5.267c0-1.05-.368-2.169-.867-3.212-.671-1.402-1.616-2.744-2.385-3.727a28.458 28.458 0 0 0-1.354-1.605l-.022-.023-.006-.007-.002-.001L7 1.5zm0 0-.364-.343L7 1.5zm-.016.766L7 2.247l.016.019c.24.274.572.667.944 1.144.611.781 1.32 1.776 1.901 2.827H4.14c.58-1.051 1.29-2.046 1.9-2.827.373-.477.706-.87.945-1.144zM3 9.733c0-.755.244-1.612.638-2.496h6.724c.395.884.638 1.741.638 2.496C11 12.117 9.182 14 7 14s-4-1.883-4-4.267z" />
+                      </svg></div>
+                    <div class="panel-body" id="humidity"></div>
+                  </div> -->
+
+            </div>
+            <div class="col">
+              
+                <div class="weather">
+                  <div class="svg">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                    width="16" height="16" fill="currentColor" class="bi bi-droplet-half" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                      d="M7.21.8C7.69.295 8 0 8 0c.109.363.234.708.371 1.038.812 1.946 2.073 3.35 3.197 4.6C12.878 7.096 14 8.345 14 10a6 6 0 0 1-12 0C2 6.668 5.58 2.517 7.21.8zm.413 1.021A31.25 31.25 0 0 0 5.794 3.99c-.726.95-1.436 2.008-1.96 3.07C3.304 8.133 3 9.138 3 10c0 0 2.5 1.5 5 .5s5-.5 5-.5c0-1.201-.796-2.157-2.181-3.7l-.03-.032C9.75 5.11 8.5 3.72 7.623 1.82z" />
+                    <path fill-rule="evenodd"
+                      d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448z" />
+                  </svg>
+                  </div>
+                  <span class="weather__date"><span id="name"></span></span>
+                  <h5 class="weather__pretitle" style="color:white">Precipitação</h5>
+                  <h6 class="weather__title" id="precipitation" style="color:white"></h6>
+                </div>
+              
+              <!-- <div class="card bg-light border-primary w-100">
+                <div class="card-header bg-primary">Precipitação&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg"
+                    width="16" height="16" fill="currentColor" class="bi bi-droplet-half" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                      d="M7.21.8C7.69.295 8 0 8 0c.109.363.234.708.371 1.038.812 1.946 2.073 3.35 3.197 4.6C12.878 7.096 14 8.345 14 10a6 6 0 0 1-12 0C2 6.668 5.58 2.517 7.21.8zm.413 1.021A31.25 31.25 0 0 0 5.794 3.99c-.726.95-1.436 2.008-1.96 3.07C3.304 8.133 3 9.138 3 10c0 0 2.5 1.5 5 .5s5-.5 5-.5c0-1.201-.796-2.157-2.181-3.7l-.03-.032C9.75 5.11 8.5 3.72 7.623 1.82z" />
+                    <path fill-rule="evenodd"
+                      d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448z" />
+                  </svg></div>
+                <div class="card-body align-items-center d-flex justify-content-center" id="precipitation"></div>
+              </div> -->
+              <!-- <div class="panel panel-default">
+                    <div class="panel-heading">Precipitação&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-droplet-half" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                          d="M7.21.8C7.69.295 8 0 8 0c.109.363.234.708.371 1.038.812 1.946 2.073 3.35 3.197 4.6C12.878 7.096 14 8.345 14 10a6 6 0 0 1-12 0C2 6.668 5.58 2.517 7.21.8zm.413 1.021A31.25 31.25 0 0 0 5.794 3.99c-.726.95-1.436 2.008-1.96 3.07C3.304 8.133 3 9.138 3 10c0 0 2.5 1.5 5 .5s5-.5 5-.5c0-1.201-.796-2.157-2.181-3.7l-.03-.032C9.75 5.11 8.5 3.72 7.623 1.82z" />
+                        <path fill-rule="evenodd"
+                          d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448z" />
+                      </svg></div>
+                    <div class="panel-body" id="precipitation"></div>
+                  </div> -->
+
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col">
+              
+                <div class="weather">
+                  <div class="svg">
+                    
+              
+                  </div>
+                  <span class="weather__date"><span id="name" style="color:white"></span></span>
+                  <h5 class="weather__pretitle" style="color:white">Direção do vento</h5>
+                  <img id="windDirIcon" src="images/compass.png" style="height: 50px;width:50px;" class="img"
+                    alt="Responsive image">
+                </div>
+              
+              <!-- <div class="card bg-light border-primary w-100">
+                <div class="card-header bg-primary">Direção do vento</div>
+                <div class="card-body align-items-center d-flex justify-content-center">
+                  <img id="windDirIcon" src="images/compass.png" style="height: 50px;width:50px;" class="img"
+                    alt="Responsive image">
+                </div>
+
+              </div> -->
+
+
+
+
+
+
+
+              <!-- <dl class="row">
+            <dt class="col-sm-3">Temperatura&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-thermometer-half" viewBox="0 0 16 16">
+              <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415z"/>
+              <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z"/>
+            </svg></dt>
+            <dd class="col-sm-9" id="temp"></dd>
+            <dt class="col-sm-3">Pressão</dt>
+            <dd class="col-sm-9" id="pressure"></dd>
+            <dt class="col-sm-3">Direção do vento&NonBreakingSpace;
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+              </svg>
+            </dt>
+            <dd class="col-sm-9" id="winddir"></dd>
+            <dt class="col-sm-3">Intesidade do vento&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wind" viewBox="0 0 16 16">
+              <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5zm-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2zM0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5z"/>
+            </svg></dt>
+            <dd class="col-sm-9" id="windspeed"></dd>
+            <dt class="col-sm-3">Humidade&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moisture" viewBox="0 0 16 16">
+              <path d="M13.5 0a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V7.5h-1.5a.5.5 0 0 0 0 1H15v2.75h-.5a.5.5 0 0 0 0 1h.5V15h-1.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 .5-.5V.5a.5.5 0 0 0-.5-.5h-2zM7 1.5l.364-.343a.5.5 0 0 0-.728 0l-.002.002-.006.007-.022.023-.08.088a28.458 28.458 0 0 0-1.274 1.517c-.769.983-1.714 2.325-2.385 3.727C2.368 7.564 2 8.682 2 9.733 2 12.614 4.212 15 7 15s5-2.386 5-5.267c0-1.05-.368-2.169-.867-3.212-.671-1.402-1.616-2.744-2.385-3.727a28.458 28.458 0 0 0-1.354-1.605l-.022-.023-.006-.007-.002-.001L7 1.5zm0 0-.364-.343L7 1.5zm-.016.766L7 2.247l.016.019c.24.274.572.667.944 1.144.611.781 1.32 1.776 1.901 2.827H4.14c.58-1.051 1.29-2.046 1.9-2.827.373-.477.706-.87.945-1.144zM3 9.733c0-.755.244-1.612.638-2.496h6.724c.395.884.638 1.741.638 2.496C11 12.117 9.182 14 7 14s-4-1.883-4-4.267z"/>
+            </svg></dt>
+            <dd class="col-sm-9" id="humidity"></dd>
+            <dt class="col-sm-3">Precipitação&NonBreakingSpace;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-droplet-half" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M7.21.8C7.69.295 8 0 8 0c.109.363.234.708.371 1.038.812 1.946 2.073 3.35 3.197 4.6C12.878 7.096 14 8.345 14 10a6 6 0 0 1-12 0C2 6.668 5.58 2.517 7.21.8zm.413 1.021A31.25 31.25 0 0 0 5.794 3.99c-.726.95-1.436 2.008-1.96 3.07C3.304 8.133 3 9.138 3 10c0 0 2.5 1.5 5 .5s5-.5 5-.5c0-1.201-.796-2.157-2.181-3.7l-.03-.032C9.75 5.11 8.5 3.72 7.623 1.82z"/>
+              <path fill-rule="evenodd" d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448z"/>
+            </svg></dt>
+            <dd class="col-sm-9" id="precipitation"></dd>
+            <dt class="col-sm-3">Radiação&NonBreakingSpace;
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16">
+                <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+              </svg>
+            </dt>
+            <dd class="col-sm-9" id="radiation"></dd>
+          </dl> -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+      </div>
+      <div class="col">
+        <div class="container">
+          <div class="shadow-lg p-3 mb-5 bg-white rounded">
+          <div class="card">
+            <div class="card-header" style="background-color: #2d7f67;color: white;">
+              Sumário
+            </div>
+            <div class="card-body">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <select class="custom-select" id="modeselect">
+                      <option value="1">Modo diário</option>
+                      <option value="2">Modo semanal</option>
+                      <option value="3">Modo mensal</option>
+                    </select>
+                  </div>
+                  <div class="col">
+                    <!-- <div class="mb-3">
+                    <input type="number" class="form-control" id="numberInterval" min=0 max=30 value=1
+                      placeholder="Número dias/semanas/meses">
+                  </div> -->
+                    <div class="input-group date">
+                      <input type="text" class="form-control-sum"><span class="input-group-addon"><i
+                          class="glyphicon glyphicon-th"></i></span>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <button type="button" class="btn btn-outline-primary w-50" id="viewbtn">Ver</button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Máximo</th>
+                        <th scope="col">Média</th>
+                        <th scope="col">Mínimo</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+
+                        <th scope="row">Temperatura</th>
+                        <td id="tempmax"></td>
+                        <td id="tempavg"></td>
+                        <td id="tempmin"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Humidade</th>
+                        <td id="hummax"></td>
+                        <td id="humavg"></td>
+                        <td id="hummin"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Precipitação</th>
+                        <td id="precmax"></td>
+                        <td id="precavg"></td>
+                        <td id="precmin"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Máximo</th>
+                        <th scope="col">Média</th>
+                        <th scope="col">Mínimo</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Intensidade do vento</th>
+                        <td id="windmax"></td>
+                        <td id="windavg"></td>
+                        <td id="windmin"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Radiação</th>
+                        <td id="radmax"></td>
+                        <td id="radavg"></td>
+                        <td id="radmin"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Pressão</th>
+                        <td id="presmax"></td>
+                        <td id="presavg"></td>
+                        <td id="presmin"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+
+            </div>
+            <div class="container">
+              <canvas id="tempChart" width="500" height="200"></canvas>
+              <canvas id="humidityChart" width="500" height="200"></canvas>
+              <canvas id="pressChart" width="500" height="200"></canvas>
+              <canvas id="precChart" width="500" height="200"></canvas>
+              <canvas id="radChart" width="500" height="200"></canvas>
+              <canvas id="windsChart" width="500" height="200"></canvas>
+              <div class="container" id="rosePlot" style="width:600px;height:600px;"></div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="container">
+          <div class="shadow-lg p-3 mb-5 bg-white rounded">
+          <div class="card">
+            <div class="card-header" style="background-color: #2d7f67;color: white;">
+              Dados completos
+            </div>
+            <div class="card-body">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+
+                    <div class="input-group date">
+                      <label class="label">Início</label>
+                      <input type="text" class="form-control-start"><span class="input-group-addon"><i
+                          class="glyphicon glyphicon-th"></i></span>
+                    </div>
+                  </div>
+                  <div class="col">
+
+                    <div class="input-group date">
+                      <label class="label">Fim</label>
+                      <input type="text" class="form-control-end">
+                      <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i></span>
+                    </div>
+                  </div>
+
+                  <div class="col">
+
+                    <button type="button" class="btn btn-outline-primary w-50" class="view-btn"
+                      id="viewbtntable">Ver</button>
+                  </div>
+                  <!-- <div class="col">
+                <button type="button" class="btn btn-outline-primary w-50" id="exporttable">Exportar</button>
+              </div> -->
+                </div>
+              </div>
+              <div class="container">
+                <table class="table" id="datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col" id="tabledata">Data</th>
+                      <th scope="col" id="tableTemp">Temperatura</th>
+                      <th scope="col" id="tableHumi">Humidade</th>
+                      <th scope="col" id="tableWindS">Intensidade do vento</th>
+                      <th scope="col" id="tableWindDir">Direção do vento</th>
+                      <th scope="col" id="tablePress">Pressão</th>
+                      <th scope="col" id="tablePrec">Precipitação</th>
+                      <th scope="col" id="tableRad">Radiação</th>
+                      <th scope="col" id="tableLeafWet">Humidade da folha</th>
+                      <th scope="col" id="tableSoilMois1">Humidade do solo 0.5m</th>
+                      <th scope="col" id="tableSoilMois2">Humidade do solo 1.5m</th>
+                      <th scope="col" id="tableSoilMois3">Humidade do solo 3m</th>
+                      <th scope="col" id="tableSoilTemp1">Temperatura do solo 0.5m</th>
+                      <th scope="col" id="tableSoilTemp2">Temperatura do solo 1.5m</th>
+                      <th scope="col" id="tableSoilTemp3">Temperatura do solo 3m</th>
+                      <th scope="col" id="tabled1">Customd1</th>
+                      <th scope="col" id="tabled2">Customd2</th>
+                      <th scope="col" id="tabled3">Customd3</th>
+                      <th scope="col" id="tabled4">Customd4</th>
+                      <th scope="col" id="tabled5">Customd5</th>
+                      <th scope="col" id="tablet1">Customt1</th>
+                      <th scope="col" id="tablet2">Customt2</th>
+                      <th scope="col" id="tablet3">Customt3</th>
+                      <th scope="col" id="tablet4">Customt4</th>
+                      <th scope="col" id="tablet5">Customt5</th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="tableRows">
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>~
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+    integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt.min.js"
+    integrity="sha512-8tam2kRugfwzif5dQDkth6tUhPtd2Pv0NCVnsyQTrlzmdmGpzDqRyP/LIgjHd/NdrL53Ai845HEwL9DQu/dALQ=="
+    crossorigin="anonymous"></script>
+  <script src="index_files/OpenLayers.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+  <script src="main.js"></script>
+
+
+
+</body>
+
+</html>

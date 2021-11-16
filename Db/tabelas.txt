@@ -1,0 +1,54 @@
+CREATE EXTENSION IF NOT EXISTS timescaledb;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+
+CREATE TABLE public.stationrecord (
+    stationid uuid,
+    "time" timestamp with time zone NOT NULL,
+    temperature real,
+    humidity real,
+    windspeed real,
+    winddir text,
+    pressure real,
+    precipitation real,
+    radiation real,
+    leafwetness real,
+    soilmoisture1 real,
+    soilmoisture2 real,
+    soilmoisture3 real,
+    soiltemperature1 real,
+    soiltemperature2 real,
+    soiltemperature3 real,
+    customd1 real,
+    customd2 real,
+    customd3 real,
+    customd4 real,
+    customd5 real,
+    customt1 text,
+    customt2 text,
+    customt3 text,
+    customt4 text,
+    customt5 text
+);
+
+CREATE TABLE public.station (
+    stationid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    name character varying(255) NOT NULL,
+    createdby character varying(255) NOT NULL,
+    createdat timestamp without time zone NOT NULL,
+    updatedby character varying(255) NOT NULL,
+    updatedat timestamp without time zone NOT NULL,
+    tempunit character varying(255),
+    windspeedunit character varying(255),
+    pressureunit character varying(255),
+    precipitationunit character varying(255),
+    radiationunit character varying(255),
+    leafwetnessunit character varying(255),
+    soiltempunit character varying(255),
+    soilmoistunit character varying(255)
+);
+
+ALTER TABLE ONLY public.station
+    ADD CONSTRAINT station_pkey PRIMARY KEY (stationid);

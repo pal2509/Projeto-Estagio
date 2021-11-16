@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API</name>
+    </assembly>
+    <members>
+        <member name="F:API.Controllers.DataController._context">
+            <summary>
+            Variável para o contexto da base de dados
+            </summary>
+        </member>
+        <member name="F:API.Controllers.DataController.config">
+            <summary>
+            Variável que permite aceder ao ficheiro appsettings.json
+            </summary>
+        </member>
+        <member name="M:API.Controllers.DataController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,API.Models.fourmeteoContext)">
+            <summary>
+            Construtor do controller
+            </summary>
+            <param name="configuration"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:API.Controllers.DataController.GetAllStations">
+            <summary>
+            Returns all the stations
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetAllRecords">
+            <summary>
+            Returns all records from the database
+            </summary>
+            <returns>Stationrecord array</returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetRecords(System.Guid)">
+            <summary>
+            Returns all records from a specific station
+            </summary>
+            <param name="uuid">Station UUID</param>
+            <returns>Stationrecords array</returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetLastRecord(System.Guid)">
+            <summary>
+            Returns the last record of a station
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <returns>Station record</returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetSummary(System.Guid,System.DateTime,System.Int32)">
+            <summary>
+            Returns max, average and min temperature, wind speed, pressure, humidity, precipitation from 1 day
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <param name="from">End data for the data</param>
+            <param name="mode">Mode 1 = days, 2 = weeks, 3 = months</param>
+            <returns>A array with a time and a corresponding value</returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetLastSoilRecord(System.Guid)">
+            <summary>
+            Returns the last record of a station
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <returns>Station soil record</returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetSoilRecords(System.Guid,System.DateTime,System.Int32)">
+            <summary>
+            Returns a array with a time and a corresponding time and a soil data 
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <param name="from">End data for the data</param>
+            <param name="mode">Mode 1 = days, 2 = weeks, 3 = months </param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetWindRecords(System.Guid,System.DateTime,System.Int32)">
+            <summary>
+            Returns a array with a time and a corresponding windspeed adn direction
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <param name="from">End data for the data</param>
+            <param name="mode">Mode 1 = days, 2 = weeks, 3 = months </param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetPrecipitationRecords(System.Guid,System.DateTime,System.Int32)">
+            <summary>
+            Returns a array with a time and a corresponding precipitation
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <param name="from">End data for the data</param>
+            <param name="mode">Mode 1 = days, 2 = weeks, 3 = months </param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetRadiationRecords(System.Guid,System.DateTime,System.Int32)">
+            <summary>
+            Returns a array with a time and a corresponding temperature
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <param name="from">End data for the data</param>
+            <param name="mode">Mode 1 = days, 2 = weeks, 3 = months </param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetHumidityRecords(System.Guid,System.DateTime,System.Int32)">
+            <summary>
+            Returns a array with a time and a corresponding humidity
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <param name="from">End data for the data</param>
+            <param name="mode">Mode 1 = days, 2 = weeks, 3 = months </param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetPressureRecords(System.Guid,System.DateTime,System.Int32)">
+            <summary>
+            Returns a array with a time and a corresponding pressure
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <param name="from">End data for the data</param>
+            <param name="mode">Mode 1 = days, 2 = weeks, 3 = months </param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetTempRecords(System.Guid,System.DateTime,System.Int32)">
+            <summary>
+            Returns a array with a time and a corresponding temperature
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <param name="from">End data for the data</param>
+            <param name="mode">Mode 1 = days, 2 = weeks, 3 = months </param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetRecords(System.Guid,System.DateTime,System.DateTime)">
+            <summary>
+            Returns the records from a station during a time interval
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <param name="from">Start date</param>
+            <param name="to">End date</param>
+            <returns>Stationrecords Array</returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetRecordsCSV(System.Guid,System.DateTime,System.DateTime)">
+            <summary>
+            Returns the records from a station during a time interval in a CSV file
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <param name="from">Start date</param>
+            <param name="to">End date</param>
+            <returns>Stationrecords Array</returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetMovingTempAvg(System.Guid,System.DateTime,System.DateTime)">
+            <summary>
+            Returns the moving average of temperature of a determined station during a specified time interval
+            </summary>
+            <param name="uuid">Station UUID</param>
+            <param name="fr">Start date</param>
+            <param name="to">End date</param>
+            <returns>Returns an array with a time index and the temperature</returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetStation(System.Guid)">
+            <summary>
+            Returns the properties of a station
+            </summary>
+            <param name="uuid">Station uuid</param>
+            <returns>Station</returns>
+        </member>
+        <member name="M:API.Controllers.DataController.GetMode(System.Int32)">
+            <summary>
+            Modos do intervalo
+            </summary>
+            <param name="mode"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API.Controllers.ReceiverController">
+            <summary>
+            Controller to receive data from stations
+            </summary>
+        </member>
+        <member name="M:API.Controllers.ReceiverController.InsertRecord(API.Models.Stationrecord)">
+            <summary>
+            Allows a Stationrecord insert to the database
+            </summary>
+            <param name="data">Stationrecord object</param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.ReceiverController.InsertStation(API.Models.newStation)">
+            <summary>
+            Allows a Stationrecord insert to the database
+            </summary>
+            <param name="station">Stationrecord object</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

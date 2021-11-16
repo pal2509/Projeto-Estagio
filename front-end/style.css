@@ -1,0 +1,94 @@
+.navbar {
+	background-color: #2d7f67;
+	font-size: large;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.navbar-brand {
+	font-size: xx-large;
+	padding: auto;
+}
+
+.container {
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+
+form{
+	margin: 20px 0;
+}
+
+form input, button{
+	padding: 5px;
+	flex-wrap: wrap;
+
+}
+
+
+
+label, input {
+	flex-basis:auto;
+	display: inline-block;
+}
+
+.label{
+	margin-right: 5px;
+	font-size: medium;
+}
+
+.view-btn{
+	display: inline-block;
+}
+
+.bg-light
+{
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.card {
+	border: none;
+    border-radius: 20px;
+	
+}
+
+
+
+.card-header {
+    font-weight: 300;
+    font-size: 18px
+}
+
+
+
+* {
+  box-sizing: border-box;  
+}
+
+html {
+  font-size: 16px;
+}
+
+.wrapper {
+  height: 10px;
+  width: 10px;
+  background-color: #f8f8f8;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.weather {
+  position: relative;
+  background-color: #2d7f67;
+  padding: 45px 30px 30px 30px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  margin-top: 10px;
+
+  font-family: 'Bitter', serif;
+  
+  
+}
+
