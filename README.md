@@ -4,7 +4,17 @@
 ## How to run
 
 1. Install .Net Core 5.0
-2. Run in CLI with `dotnet run`
+2. Set the database connection (below)
+3. Run in CLI with `dotnet run`
+
+### Configuration
+
+`Api/appsettings.json` holds a placeholder connection string. Pass the real one through the
+environment instead of editing the file, so it never ends up in git:
+
+```bash
+export ConnectionStrings__4meteodb="Host=<host>;Port=5432;Username=<user>;Password=<password>;Database=fourmeteo"
+```
 
 ### Instaled NuGetPackages
 
